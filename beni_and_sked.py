@@ -70,6 +70,30 @@ for bomb_times in range(20):
 imp_bomb = pygame.image.load("bomb(grey).png")
 imp_bomb = pygame.transform.scale(imp_bomb, (3 * 20, 1 * 20))
 
+
+
+cotton_list = []
+for cotton in range(20):
+    cotton_row = random.randint(0, 24)
+    cotton_col = random.randint(0, 49)
+    playerboard[cotton_row][cotton_col] = 4
+    cotton_list.append((cotton_row, cotton_col))
+cotton_img = pygame.image.load("pixil-frame-0 (3).png")
+cotton_img = pygame.transform.scale(cotton_img, (3 * 20, 3 * 20))
+
+teleport_list = []
+for teleport in range(5):
+    teleport_row = random.randint(0, 24)
+    teleport_col = random.randint(0, 49)
+    playerboard[teleport_row][teleport_col] = 5
+    teleport_list.append((teleport_row, teleport_col))
+teleport_img = pygame.image.load("pixil-frame-0 (3).png")
+teleport_img = pygame.transform.scale(teleport_img, (3 * 20, 1 * 20))
+
+if playerboard[index_benni_row + 3][index_benni_col + 1] == 5:
+    playerboard[index_benni_row][index_benni_col] = random.sample(teleport_list, 1)
+
+
 # shaked
 pygame.display.set_caption('shaked')
 shaked_size_width = 3
@@ -81,14 +105,6 @@ for i in range(shaked_size_height):
     for j in range(shaked_size_width):
         playerboard[row - i - 1][col - j - 1] = 3
 
-cotton_list = []
-for cotton in range(20):
-    cotton_row = random.randint(0, 24)
-    cotton_col = random.randint(0, 49)
-    playerboard[cotton_row][cotton_col] = 4
-    cotton_list.append((cotton_row, cotton_col))
-cotton_img = pygame.image.load("pixil-frame-0 (3).png")
-cotton_img = pygame.transform.scale(cotton_img, (3 * 20, 3 * 20))
 for w in playerboard:
     print(w)
 
@@ -242,7 +258,7 @@ while working:
                 if event.key == KEYS[i]:
                     end_timer = pygame.time.get_ticks()
                     if end_timer - start_timer >= 1000:
-                        file = open("data_jason.txt"+ str(i), "r")
+                        file = open("data_jason.txt" + str(i), "r")
                         game_state = json.load(file)
                         index_benni_col = game_state['benicol']
                         index_benni_row = game_state['benirow']
